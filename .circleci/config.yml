@@ -103,7 +103,7 @@ jobs:
     docker:
       -  image: circleci/node:13.8.0
     steps:
-      - chcekout 
+      - checkout 
       - restore_cache: 
           keys:
             - "frontend-build"
