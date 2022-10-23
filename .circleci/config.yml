@@ -250,15 +250,19 @@ jobs:
 
   deploy-frontend:
     docker:
-      - image: circleci/node:13.8.0
+      - image: amazon/aws-cli
     steps:
       - checkout
-      - aws-cli/setup
       - restore_cache:
           keys: [frontend-build]
       - run:
           name: Install dependencies
           command: |
+            yum install -y curl tar sudo
+            curl -sL https://rpm.nodesource.com/setup_13.x | sudo bash -
+            yum install -y nodejs
+            node --version
+            
             cd frontend
             sudo npm install webpack-dev-server -g
             sudo npm install
