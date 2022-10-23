@@ -301,8 +301,8 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            yum update
-            yum add --update ansible aws-cli openssh-client tar gzip
+            sudo apt update
+            sudo apt install --update ansible aws-cli openssh-client tar gzip
             
       - run:
           name: Deploy backend
