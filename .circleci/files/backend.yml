@@ -35,3 +35,12 @@ Resources:
       Tags:
         - Key: Name
           Value: !Sub backend-${ID}
+
+Outputs:
+  BackendURL:
+    Value: 
+      Fn::GetAtt: [EC2Instance, PublicIp]
+    Description: URL for backend
+    Export:
+      Name: BackendURL
+
