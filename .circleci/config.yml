@@ -309,8 +309,7 @@ jobs:
       #     name: compress backend
       #     command: |
       #       tar -C /tmp/artifacts/backend -czvf artifact.tar.gz .
-      
-      - fix-node-modules
+
       - run:
           name: Deploy backend
           command: |
