@@ -39,16 +39,6 @@ commands:
               npm install
               npm run migrations:revert
             fi
-  
-  fix-node-modules:
-    description: run npm audit fix 
-    steps:
-      - run: 
-          name: run audit 
-          command: |
-            npm audit fix
-            npm audit fix --force
-            npm audit fix --audit-level=critical --force
             
 jobs:
   build-frontend:
