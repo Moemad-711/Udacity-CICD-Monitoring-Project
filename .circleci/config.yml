@@ -286,7 +286,7 @@ jobs:
       - add_ssh_keys:
           name: DEPLOY - Add SSH keys
           fingerprints:
-              - 
+              - 30:3a:67:4c:94:58:58:64:7d:f2:95:19:75:62:93:35
       - attach_workspace:
           at: .circleci/ansible/
       - run:
