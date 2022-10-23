@@ -173,9 +173,9 @@ jobs:
             --output text >> .circleci/ansible/inventory.txt
       - run: yum -y install tar gzip
       - persist_to_workspace:
-          root: .circleci/ansible/
+          root: ~/
           paths:
-            - .circleci/ansible/inventory.txt
+            - project/.circleci/ansibleinventory.txt
       # Here's where you will add some code to rollback on failure      
 
   configure-infrastructure:
@@ -188,7 +188,7 @@ jobs:
           fingerprints:
               - 30:3a:67:4c:94:58:58:64:7d:f2:95:19:75:62:93:35
       - attach_workspace:
-          at: .circleci/ansible/
+          at: ~/
       - run:
           name: Install dependencies
           command: |
@@ -288,7 +288,7 @@ jobs:
           fingerprints:
               - 30:3a:67:4c:94:58:58:64:7d:f2:95:19:75:62:93:35
       - attach_workspace:
-          at: .circleci/ansible/
+          at: ~/
       - run:
           name: Install dependencies
           command: |
