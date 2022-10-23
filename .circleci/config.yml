@@ -304,7 +304,7 @@ jobs:
           name: Install dependencies
           command: |
             sudo apt update
-            sudo apt install -y ansible aws-cli openssh-client tar gzip
+            sudo apt install -y ansible openssh-client tar gzip
             
       - run:
           name: Deploy backend
