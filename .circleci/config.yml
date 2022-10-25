@@ -320,6 +320,7 @@ jobs:
             cd ..
             tar -C backend -czvf backend.tar.gz .
 
+            pwd
             ls -a .
 
             cd .circleci/ansible
