@@ -161,7 +161,7 @@ jobs:
               --no-paginate --output text)
             
             echo $BACKEND_URL
-            curl -k https://kvdb.io/GhTC8Eu5ZNcMoyLUeSsrrk/BACKENDURL_${CIRCLE_WORKFLOW_ID:0:7}  -d '${BACKEND_URL}'
+            # curl -k https://kvdb.io/GhTC8Eu5ZNcMoyLUeSsrrk/BACKENDURL_${CIRCLE_WORKFLOW_ID:0:7}  -d '${BACKEND_URL}'
       - run:
           name: Ensure front-end infrastructure exist
           command: |
@@ -173,12 +173,12 @@ jobs:
       - run:
           name: Add back-end ip to ansible inventory
           command: |
-            aws ec2 describe-instances \
-            --query 'Reservations[*].Instances[*].PublicIpAddress' \
-            --filters "Name=tag:Project,Values=udacity" \
-            --output text >> .circleci/ansible/inventory.txt
+            aws cloudformation describe-stacks \
+              --stack-name udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7} \
+              --query "Stacks[0].Outputs[?OutputKey=='BackendURL'].OutputValue" \
+              --no-paginate --output text >> .circleci/ansible/inventory.txt
             
-            curl -k https://kvdb.io/GhTC8Eu5ZNcMoyLUeSsrrk/BACKENDURL_${CIRCLE_WORKFLOW_ID:0:7} >> .circleci/ansible/inventory.txt
+            # curl -k https://kvdb.io/GhTC8Eu5ZNcMoyLUeSsrrk/BACKENDURL_${CIRCLE_WORKFLOW_ID:0:7} >> .circleci/ansible/inventory.txt
 
             cat .circleci/ansible/inventory.txt
       - run: yum -y install tar gzip
