@@ -27,7 +27,7 @@ commands:
     description: Revert the last migration if successfully run in the current workflow.
     parameters:
       workflow_id:
-        type: string     
+        type: string
     steps:
       - run:
           name: Revert migrations
@@ -41,7 +41,7 @@ commands:
                 npm install
                 npm run migrations:revert
             fi
-            
+
 jobs:
   build-frontend:
     docker:
@@ -70,19 +70,19 @@ jobs:
       - run:
           name: Back-end build
           command: |
-             cd backend
-             npm i 
-             npm run build
+            cd backend
+            npm i 
+            npm run build
       - save_cache:
           paths: [backend/node_modules]
           key: backend-build
 
   test-frontend:
     docker:
-      -  image: circleci/node:13.8.0
+      - image: circleci/node:13.8.0
     steps:
-      - checkout 
-      - restore_cache: 
+      - checkout
+      - restore_cache:
           keys:
             - "frontend-build"
       - run:
@@ -91,10 +91,10 @@ jobs:
             cd frontend
             npm i 
             npm run test
-                
+
   test-backend:
     docker:
-      -  image: circleci/node:13.8.0
+      - image: circleci/node:13.8.0
     steps:
       - checkout
       - restore_cache:
@@ -106,16 +106,16 @@ jobs:
             cd backend
             npm i 
             npm run test
-            
+
   scan-frontend:
     docker:
-      -  image: circleci/node:13.8.0
+      - image: circleci/node:13.8.0
     steps:
-      - checkout 
-      - restore_cache: 
+      - checkout
+      - restore_cache:
           keys:
             - "frontend-build"
-      - run: 
+      - run:
           name: scan-front-end
           command: |
             cd frontend
@@ -125,13 +125,13 @@ jobs:
 
   scan-backend:
     docker:
-      -  image: circleci/node:13.8.0
+      - image: circleci/node:13.8.0
     steps:
       - checkout
       - restore_cache:
           keys:
             - "backend-build"
-      - run: 
+      - run:
           name: scan-back-end
           command: |
             cd backend
@@ -142,7 +142,7 @@ jobs:
             npm audit --audit-level=critical
 
   deploy-infrastructure:
-    docker: 
+    docker:
       - image: amazon/aws-cli
     steps:
       - checkout
@@ -154,12 +154,12 @@ jobs:
               --tags project=udapeople-moemad-backend \
               --stack-name udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7} \
               --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}"
-            
+
             export BACKEND_URL=$(aws cloudformation describe-stacks \
               --stack-name udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7} \
               --query "Stacks[0].Outputs[?OutputKey=='BackendURL'].OutputValue" \
               --no-paginate --output text)
-            
+
             echo $BACKEND_URL
       - run:
           name: Ensure front-end infrastructure exist
@@ -168,7 +168,7 @@ jobs:
               --template-file .circleci/files/frontend.yml \
               --tags project=udapeople-moemad-frontend \
               --stack-name "udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}" \
-              --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}"  
+              --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}"
       - run:
           name: Add back-end ip to ansible inventory
           command: |
@@ -176,7 +176,7 @@ jobs:
               --stack-name udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7} \
               --query "Stacks[0].Outputs[?OutputKey=='BackendURL'].OutputValue" \
               --no-paginate --output text >> .circleci/ansible/inventory.txt
-            
+
             cat .circleci/ansible/inventory.txt
       - run: yum -y install tar gzip
       - run: ls ~/
@@ -196,14 +196,14 @@ jobs:
       - add_ssh_keys:
           name: DEPLOY - Add SSH keys
           fingerprints:
-              - 30:3a:67:4c:94:58:58:64:7d:f2:95:19:75:62:93:35
+            - 30:3a:67:4c:94:58:58:64:7d:f2:95:19:75:62:93:35
       - attach_workspace:
-          at:  ~/project/.circleci/ansible/
+          at: ~/project/.circleci/ansible/
       - run:
           name: Install dependencies
           command: |
             apk add --update ansible aws-cli
-            
+
       - run:
           name: Configure server
           command: |
@@ -211,7 +211,7 @@ jobs:
             cat inventory.txt
             ansible-playbook -i inventory.txt configure-server.yml
       - destroy-environment:
-          workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"      
+          workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"
 
   run-migrations:
     docker:
@@ -288,8 +288,8 @@ jobs:
             aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
 
       - destroy-environment:
-          workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"      
-                    
+          workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"
+
   deploy-backend:
     docker:
       - image: circleci/node:13.8.0
@@ -301,23 +301,25 @@ jobs:
       - add_ssh_keys:
           name: DEPLOY - Add SSH keys
           fingerprints:
-              - 30:3a:67:4c:94:58:58:64:7d:f2:95:19:75:62:93:35
+            - 30:3a:67:4c:94:58:58:64:7d:f2:95:19:75:62:93:35
       - attach_workspace:
-          at:  ~/project/.circleci/ansible/
+          at: ~/project/.circleci/ansible/
       - run:
           name: Install dependencies
           command: |
             sudo apt update
             sudo apt install -y ansible openssh-client tar gzip
-            
+
       - run:
           name: Deploy backend
           command: |
             cd backend
             npm i
             npm run build
+
             cd ..
             tar -C backend -czvf artifact.tar.gz .
+
             cd .circleci/ansible
             echo "Contents  of the inventory.txt file is -------"
             cat inventory.txt
@@ -395,7 +397,7 @@ jobs:
               --tags project=udapeople
 
       - destroy-environment:
-          workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"  
+          workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"
 
   cleanup:
     docker:
@@ -414,7 +416,7 @@ jobs:
             # Fetch the stack names          
             export STACKS=($(aws cloudformation list-stacks --query "StackSummaries[*].StackName" \
                     --stack-status-filter CREATE_COMPLETE --no-paginate --output text)) 
-            echo Stack names: "${STACKS[@]}"                   
+            echo Stack names: "${STACKS[@]}"
       - run:
           name: Remove old stacks and files
           command: |
@@ -424,7 +426,6 @@ jobs:
               aws cloudformation delete-stack --stack-name frontend-"${OldWorkflowID}"
               aws cloudformation delete-stack --stack-name backend-"${OldWorkflowID}"
             fi
-            
 
 workflows:
   default:
