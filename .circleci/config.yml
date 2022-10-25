@@ -180,9 +180,9 @@ jobs:
       - run: ls ~/
       - run: ls ~/project/.circleci/ -a
       - persist_to_workspace:
-          root: ~/
+          root: ~/project/.circleci/ansible/
           paths:
-            - project/.circleci/ansible/inventory.txt
+            - inventory.txt
       - destroy-environment:
           workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"
 
@@ -196,7 +196,7 @@ jobs:
           fingerprints:
               - 30:3a:67:4c:94:58:58:64:7d:f2:95:19:75:62:93:35
       - attach_workspace:
-          at: ~/
+          at:  ~/project/.circleci/ansible/
       - run:
           name: Install dependencies
           command: |
@@ -205,10 +205,7 @@ jobs:
       - run:
           name: Configure server
           command: |
-            ls -a .
             cd .circleci/ansible
-            pwd
-            ls -a .
             cat inventory.txt
             ansible-playbook -i inventory.txt configure-server.yml
       - destroy-environment:
@@ -304,7 +301,7 @@ jobs:
           fingerprints:
               - 30:3a:67:4c:94:58:58:64:7d:f2:95:19:75:62:93:35
       - attach_workspace:
-          at: ~/
+          at:  ~/project/.circleci/ansible/
       - run:
           name: Install dependencies
           command: |
