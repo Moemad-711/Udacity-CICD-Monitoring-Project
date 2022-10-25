@@ -39,7 +39,7 @@ commands:
             then
                 cd ~/project/backend
                 npm install
-                npm run migration:revert
+                npm run migrations:revert
             fi
             
 jobs:
@@ -206,6 +206,8 @@ jobs:
           name: Configure server
           command: |
             cd .circleci/ansible
+            ls -a .
+            cat inventory.txt
             ansible-playbook -i inventory.txt configure-server.yml
       - destroy-environment:
           workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"      
