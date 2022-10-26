@@ -13,5 +13,7 @@
 - name: Start PM2
   shell: |
     cd /home/ubuntu/
+    sudo npm i -g ts-node 
+
     pm2 stop default
     sudo pm2 start npm --name backend -- start
