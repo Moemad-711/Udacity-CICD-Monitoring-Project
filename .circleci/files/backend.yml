@@ -42,5 +42,5 @@ Outputs:
       Fn::GetAtt: [EC2Instance, PublicIp]
     Description: URL for backend
     Export:
-      Name: BackendURL
+      Name: !Sub BackendURL-${ID}
 
