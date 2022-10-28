@@ -279,6 +279,7 @@ jobs:
             echo "API_URL = ${API_URL}"
 
             echo "API_URL = ${API_URL}" >> frontend/.env
+            echo "NODE_ENV = production" >> frontend/.env
             cat frontend/.env
 
       - run:
