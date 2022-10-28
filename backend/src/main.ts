@@ -33,12 +33,13 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup(`api/${apiVersionPrefix}`, app, document);
   const config: ConfigService = app.get('ConfigService');
-  // const whitelist = config.CORS_WHITELIST;
-  // const corsOptions = {
-  //   origin: true,
-  //   methods: ['POST', 'PUT', 'GET']
-  // };
-  app.use(cors());
+  const whitelist = config.CORS_WHITELIST;
+  const corsOptions = {
+    origin: "*",
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    allowedHeaders: "Content-Type,Authorization"
+  };
+  app.use(cors(corsOptions));
   app.useGlobalFilters(new ErrorFilter());
   await app.listen(config.PORT);
   logger.log(`Listening on port ${config.PORT}.`);
