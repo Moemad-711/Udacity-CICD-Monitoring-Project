@@ -5,7 +5,6 @@ After=network-online.target
 
 [Service]
 User=node_exporter
-Group=node_exporters
 Type=simple
 ExecStart=/usr/local/bin/node_exporter
 
