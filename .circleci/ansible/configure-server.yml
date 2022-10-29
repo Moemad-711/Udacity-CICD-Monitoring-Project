@@ -50,6 +50,7 @@
         sudo echo "NODE_ENV=production" >> /etc/environment
         source /etc/environment
         cat /etc/environment
+
   roles:
     # Your code here
     - configure-server
