@@ -1,4 +1,5 @@
 URL01: https://github.com/Moemad-711/Udacity-CICD-Monitoring-Project
 URL02: http://udapeople-894e6f3.s3-website-us-east-1.amazonaws.com
-URL03: d2jj9y8svz3zux.cloudfront.net
+URL03: http://d2jj9y8svz3zux.cloudfront.net
 URL04: http://34.239.132.2:3030/api/status
+URL05: 
