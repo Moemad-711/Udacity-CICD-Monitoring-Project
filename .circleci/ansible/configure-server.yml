@@ -51,7 +51,10 @@
         source /etc/environment
         cat /etc/environment
 
+    - name: "Create a user for Prometheus Node Exporter"
+      shell: |
+        sudo useradd --no-create-home --shell /bin/false node_exporter
+
   roles:
-    # Your code here
     - configure-server
     - configure-prometheus-node-exporter
